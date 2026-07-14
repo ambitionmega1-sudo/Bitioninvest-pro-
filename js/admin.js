@@ -1,6 +1,8 @@
+import { auth, db } from "../firebase.js";
 
-import { db } from "../firebase.js";
-
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 import {
     collection,
@@ -12,17 +14,53 @@ import {
 
 
 const userList = document.getElementById("userList");
-
 const updateBtn = document.getElementById("updateBalance");
-
 const message = document.getElementById("adminMessage");
 
 
 
+// CHANGE THIS TO YOUR ADMIN EMAIL
+
+const adminEmail = andrewstephenson543@gmail.com
+
+
+
+
+// Check admin access
+
+onAuthStateChanged(auth, (user)=>{
+
+
+    if(!user || user.email !== adminEmail){
+
+
+        alert("Access denied");
+
+
+        window.location.href = "login.html";
+
+
+    } else {
+
+
+        loadUsers();
+
+
+    }
+
+
+});
+
+
+
+
+
+// Load users
+
 async function loadUsers(){
 
 
-    const usersSnapshot = await getDocs(
+    const snapshot = await getDocs(
         collection(db,"users")
     );
 
@@ -30,10 +68,10 @@ async function loadUsers(){
     userList.innerHTML = "";
 
 
-    usersSnapshot.forEach((user)=>{
+    snapshot.forEach((item)=>{
 
 
-        const data = user.data();
+        const data = item.data();
 
 
         userList.innerHTML += `
@@ -53,7 +91,7 @@ async function loadUsers(){
         </p>
 
         <p>
-        <b>ID:</b> ${user.id}
+        <b>User ID:</b> ${item.id}
         </p>
 
         </div>
@@ -67,6 +105,10 @@ async function loadUsers(){
 }
 
 
+
+
+
+// Update balance
 
 updateBtn.addEventListener("click", async ()=>{
 
@@ -82,46 +124,35 @@ updateBtn.addEventListener("click", async ()=>{
 
     if(!id || !balance){
 
+
         message.innerHTML =
-        "Please enter user ID and balance";
+        "Enter user ID and balance";
+
 
         return;
 
-    }
-
-
-
-    try{
-
-
-        await updateDoc(
-            doc(db,"users",id),
-            {
-                balance:Number(balance)
-            }
-        );
-
-
-        message.innerHTML =
-        "Balance updated successfully";
-
-
-        loadUsers();
-
-
-
-    }catch(error){
-
-
-        message.innerHTML =
-        error.message;
-
 
     }
+
+
+
+    await updateDoc(
+
+        doc(db,"users",id),
+
+        {
+            balance:Number(balance)
+        }
+
+    );
+
+
+
+    message.innerHTML =
+    "Balance updated successfully";
+
+
+    loadUsers();
 
 
 });
-
-
-
-loadUsers();
