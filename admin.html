@@ -1,1 +1,118 @@
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel - BitionInvest</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+BitionInvest Admin
+</div>
+
+<nav>
+
+<a href="dashboard.html">Dashboard</a>
+<a href="index.html">Home</a>
+
+</nav>
+
+</header>
+
+
+
+<section class="hero">
+
+
+<div class="hero-content">
+
+
+<h1>
+Admin Control Panel
+</h1>
+
+
+<p>
+Manage user investment figures and account information.
+</p>
+
+
+
+<div class="card">
+
+
+<h2>
+Update User Balance
+</h2>
+
+
+<input 
+type="text"
+id="userId"
+placeholder="User ID">
+
+
+
+<input
+type="number"
+id="newBalance"
+placeholder="New Balance">
+
+
+
+<button class="btn" id="updateBalance">
+Update Balance
+</button>
+
+
+<p id="adminMessage"></p>
+
+
+</div>
+
+
+<br>
+
+
+
+<div class="card">
+
+<h2>
+User Information
+</h2>
+
+<div id="userList">
+Loading users...
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+<script type="module" src="js/admin.js"></script>
+
+
+</body>
+
+</html>
